@@ -1,9 +1,12 @@
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
 
 export default function Home() {
   return (
-    <main className="flex bg-[#09090B] min-h-screen flex-col items-center justify-between p-24">
-      <div className="text-white">Welcome to User Regestration Page</div>
-    </main>
+    <>
+      <main className="flex flex-col justify-center items-center text-5xl pb-[20%] min-h-screen">
+        <div>Welcome to the Admin DashBoard Page</div>
+        <div className="text-sm mt-4">This page is under Development!!</div>
+      </main>
+    </>
   );
 }
