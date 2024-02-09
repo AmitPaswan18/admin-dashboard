@@ -1,9 +1,3 @@
-import { Input } from "@/components/ui/input";
-
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div>This page is under Development!!</div>
-    </main>
-  );
+export default async function User() {
+  return <div>hello</div>;
 }

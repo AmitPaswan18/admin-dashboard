@@ -7,10 +7,12 @@ import Link from "next/link";
 export default function Header() {
   return (
     <div className="h-28 w-full">
-      <div className="h-[60%] flex justify-between w-full">
-        <div className="p-4 text-gray-400 flex leading-8 md:gap-3 gap-1">
+      <div className="md:hidden p-4 flex">
+        <MenuIcon sx={{ fontSize: "32px" }} />
+      </div>
+      <div className="h-[60%] md:flex hidden justify-between w-full">
+        <div className="p-4 hidden  text-gray-400 md:flex leading-8 md:gap-3 gap-1">
           {" "}
-          <MenuIcon sx={{ fontSize: "32px" }} />
           <Link href="/registeruser">Dashboard</Link>
           <Link href="/users">Users</Link>
           <div>Settings</div>

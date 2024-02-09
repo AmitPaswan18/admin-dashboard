@@ -1,19 +1,6 @@
 "use client";
-
 import * as React from "react";
-import Link from "next/link";
-import { cn } from "@/lib/utils";
 import { getNames } from "country-list";
-import MenuIcon from "@mui/icons-material/Menu";
-import {
-  NavigationMenu,
-  NavigationMenuContent,
-  NavigationMenuItem,
-  NavigationMenuLink,
-  NavigationMenuList,
-  NavigationMenuTrigger,
-  navigationMenuTriggerStyle,
-} from "@/components/ui/navigation-menu";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
 import { z } from "zod";
@@ -31,16 +18,12 @@ import {
 import {
   Select,
   SelectContent,
-  SelectGroup,
   SelectItem,
-  SelectLabel,
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
 
 import { Input } from "@/components/ui/input";
-
-let countryName = getNames();
 
 const formSchema = z.object({
   firstname: z.string().min(2, {
@@ -60,6 +43,8 @@ const formSchema = z.object({
 });
 
 export default function Home() {
+  let countryName = getNames();
+
   const form = useForm<z.infer<typeof formSchema>>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -74,10 +59,6 @@ export default function Home() {
     },
   });
 
-  const handleCountryChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    const { value } = event.target;
-    form.setValue("country", value);
-  };
   function onSubmit(values: z.infer<typeof formSchema>) {
     console.log(values);
   }
