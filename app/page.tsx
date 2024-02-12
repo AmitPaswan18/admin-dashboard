@@ -1,11 +1,11 @@
-import { Button } from "@/components/ui/button";
+// import LoginForm from "@/components/auth/Authlogin";
 
 export default function Home() {
   return (
     <>
       <main className="flex flex-col justify-center items-center text-5xl pb-[20%] min-h-screen">
-        <div>Welcome to the Admin DashBoard Page</div>
-        <div className="text-sm mt-4">This page is under Development!!</div>
+        {/* <LoginForm /> */}
+        Welcome to Admin Dashboard
       </main>
     </>
   );
