@@ -18,13 +18,15 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-import InboxIcon from "@mui/icons-material/MoveToInbox";
+
 import MailIcon from "@mui/icons-material/Mail";
 const drawerWidth = 240;
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
 import Avatar from "@mui/material/Avatar";
 import Stack from "@mui/material/Stack";
+import AdminPanelSettingsIcon from "@mui/icons-material/AdminPanelSettings";
+import GroupAddIcon from "@mui/icons-material/GroupAdd";
 
 const openedMixin = (theme: Theme): CSSObject => ({
   width: drawerWidth,
@@ -109,8 +111,6 @@ export default function MiniDrawer() {
   function AuthButton() {
     const { data: session } = useSession();
 
-    console.log(session);
-
     if (session) {
       return (
         <>
@@ -129,14 +129,14 @@ export default function MiniDrawer() {
       );
     }
     return (
-      <>
-        Not signed in <br />
+      <div className="flex gap-2">
+        <div className="pt-[6px]"> Not signed in </div>
         <button
           className="bg-red-500 rounded-md md:text-sm text-xs md:font-normal font-normal md:px-6 md:py-2 py-1 px-4 text-white mr-0"
           onClick={() => signIn()}>
           Sign In
         </button>
-      </>
+      </div>
     );
   }
 
@@ -202,7 +202,11 @@ export default function MiniDrawer() {
                         mr: open ? 3 : "auto",
                         justifyContent: "center",
                       }}>
-                      {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
+                      {index % 2 === 0 ? (
+                        <AdminPanelSettingsIcon />
+                      ) : (
+                        <GroupAddIcon />
+                      )}
                     </ListItemIcon>
                     <ListItemText
                       primary={text}
@@ -215,28 +219,6 @@ export default function MiniDrawer() {
           )}
         </List>
         <Divider />
-        <List>
-          {["All mail", "Trash", "Spam"].map((text, index) => (
-            <ListItem key={text} disablePadding sx={{ display: "block" }}>
-              <ListItemButton
-                sx={{
-                  minHeight: 48,
-                  justifyContent: open ? "initial" : "center",
-                  px: 2.5,
-                }}>
-                <ListItemIcon
-                  sx={{
-                    minWidth: 0,
-                    mr: open ? 3 : "auto",
-                    justifyContent: "center",
-                  }}>
-                  {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                </ListItemIcon>
-                <ListItemText primary={text} sx={{ opacity: open ? 1 : 0 }} />
-              </ListItemButton>
-            </ListItem>
-          ))}
-        </List>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
         <DrawerHeader />

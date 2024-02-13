@@ -1,10 +1,10 @@
 import { notFound } from "next/navigation";
 import connectDb from "@/db";
-import UserData from "@/models/register";
+// import UserData from "@/models/register";
+import authLogin from "@/models/login";
 import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
-import { FormEvent } from "react";
 import { redirect } from "next/navigation";
 
 async function getData() {
@@ -30,12 +30,8 @@ async function authProvider() {
   return res.json();
 }
 
-
-
-
 export default async function LoginForm() {
   const data = await getData();
-
   console.log(data);
   async function handleSubmit(values: any) {
     "use server";
@@ -45,7 +41,7 @@ export default async function LoginForm() {
 
     await connectDb();
 
-    const validateUser = await UserData.findOne({
+    const validateUser = await authLogin.findOne({
       username: username,
       password: password,
     });
@@ -53,9 +49,6 @@ export default async function LoginForm() {
     if (validateUser) {
       redirect("/users");
     }
-
-    // const post = new UserData({ username: username, password: password });
-    // await post.save();
 
     revalidatePath("/posts");
   }
@@ -116,8 +109,9 @@ export default async function LoginForm() {
                 d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
               />
             </svg>
-            <span>Submit</span>
+            <span>Sign in</span>
           </button>
+          <Link href="/signup">Don't have an account? Sign Up </Link>
         </div>
       </form>
     </div>

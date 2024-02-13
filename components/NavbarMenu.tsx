@@ -19,10 +19,10 @@ function AuthButton() {
     );
   }
   return (
-    <>
-      Not signed in <br />
+    <div className="flex">
+      <div>Not signed in</div>
       <button onClick={() => signIn()}>Sign in</button>
-    </>
+    </div>
   );
 }
 
