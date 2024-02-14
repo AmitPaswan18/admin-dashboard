@@ -8,7 +8,6 @@ export async function POST(req: any, res: any) {
     const data = await req.json()
     console.log(data);
     const post = new UserData(data);
-    console.log("this is going on database ->>>>>>", post);
     await post.save();
     return NextResponse.json(data)
 

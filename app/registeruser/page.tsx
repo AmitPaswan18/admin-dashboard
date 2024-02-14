@@ -1,14 +1,6 @@
 "use client";
 
-import UserData from "@/models/register";
-import { getNames } from "country-list";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
 import { notFound } from "next/navigation";
-import { redirect } from "next/navigation";
-import { revalidatePath } from "next/cache";
-import connectDb from "@/db";
 
 import { Formik, Form, Field } from "formik";
 import React from "react";
@@ -17,11 +9,10 @@ import { toFormikValidationSchema } from "zod-formik-adapter";
 import { Input } from "@/components/ui/input";
 
 const contactFormSchema = object({
-  fullname: string({
+  username: string({
     required_error: "Please enter your full name",
   }),
   email: string().email("Please enter a valid email"),
-
   fathername: string({
     required_error: "Please enter your father name",
   }),
@@ -32,17 +23,6 @@ const contactFormSchema = object({
 
 type ContactFormInputs = TypeOf<typeof contactFormSchema>;
 
-async function getData() {
-  const res = await fetch("http://localhost:3000/api/fetchusers", {
-    cache: "no-cache",
-    tags: ["posts"],
-  });
-
-  if (!res.ok) {
-    return notFound;
-  }
-  return res.json();
-}
 
 export default function UserRegister() {
   return (
@@ -50,12 +30,12 @@ export default function UserRegister() {
       <nav className="flex flex-col md:flex-row w-full justify-center min-h-fit">
         <Formik<ContactFormInputs>
           initialValues={{
-            fullname: "",
+            username: "",
             email: "",
             fathername: "",
             jobtitle: "",
           }}
-          onSubmit={async (values) => {
+          onSubmit={async (values, { resetForm }) => {
             try {
               const res = await fetch("http://localhost:3000/api/adduser", {
                 method: "POST",
@@ -64,16 +44,15 @@ export default function UserRegister() {
                   "content-type": "application/json",
                 },
               });
-              console.log(res);
               if (res.ok) {
                 console.log("Registration successfully");
+                resetForm();
               } else {
                 console.log("Oops! Something is wrong.");
               }
             } catch (error) {
               console.log(error);
             }
-            console.log("Form is submitted", values);
           }}
           validationSchema={toFormikValidationSchema(contactFormSchema)}>
           {(formikState) => {
@@ -81,23 +60,23 @@ export default function UserRegister() {
             return (
               <div className="border-2 border-gray-300 p-10 rounded-md shadow-md shadow-gray-400">
                 <Form className="flex flex-col">
-                  <div className="text-3xl my-2">User Regestration</div>
+                  <div className="text-3xl my-2">User Registration</div>
                   <div className="flex py-2 space-between gap-2">
                     <div className="w-full max-w-xs">
                       <label className="label">
-                        <span className="label-text">Fullname</span>
+                        <span className="label-text">Username</span>
                       </label>
                       <Field
                         as={Input}
                         type="text"
-                        name="fullname"
+                        name="username"
                         placeholder="e.g. John"
                         className=" w-full max-w-xs"
                       />
-                      {errors.fullname && (
+                      {errors.username && (
                         <label className="label">
                           <div className="text-red-500 text-sm">
-                            {errors.fullname}
+                            {errors.username}
                           </div>
                         </label>
                       )}

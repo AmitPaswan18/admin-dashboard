@@ -1,23 +1,9 @@
-import { notFound } from "next/navigation";
+import { notFound, redirect } from "next/navigation";
 import connectDb from "@/db";
-// import UserData from "@/models/register";
-import authLogin from "@/models/login";
-import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
-import { redirect } from "next/navigation";
 
-async function getData() {
-  const res = await fetch("http://localhost:3000/api/fetchusers", {
-    cache: "no-cache",
-    tags: ["posts"],
-  });
 
-  if (!res.ok) {
-    return notFound;
-  }
-  return res.json();
-}
 async function authProvider() {
   "use server";
   const res = await fetch("http://localhost:3000/api/auth/signin", {
@@ -31,26 +17,27 @@ async function authProvider() {
 }
 
 export default async function LoginForm() {
-  const data = await getData();
-  console.log(data);
+  await connectDb();
   async function handleSubmit(values: any) {
     "use server";
-
     const username = values.get("username").toString();
     const password = values.get("password").toString();
 
-    await connectDb();
+    try {
+      const res = await fetch("http://localhost:3000/api/authlogin", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ username, password }),
+      });
 
-    const validateUser = await authLogin.findOne({
-      username: username,
-      password: password,
-    });
-
-    if (validateUser) {
-      redirect("/users");
+      if (!res.ok) {
+        console.error("Authentication failed");
+        return;
+      }
+    } catch (error) {
+      console.error("Error during fetch:", error);
     }
-
-    revalidatePath("/posts");
+    redirect("/");
   }
 
   return (
@@ -111,7 +98,7 @@ export default async function LoginForm() {
             </svg>
             <span>Sign in</span>
           </button>
-          <Link href="/signup">Don't have an account? Sign Up </Link>
+          <Link href="/signup">Dont have an account? Sign Up </Link>
         </div>
       </form>
     </div>

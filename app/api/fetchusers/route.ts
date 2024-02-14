@@ -1,7 +1,8 @@
 import connectDb from "@/db";
 import { NextResponse } from "next/server";
 import UserData from "@/models/register";
-export async function GET(response: NextResponse) {
+// import authLogin from "@/models/login";
+export async function GET(response) {
     try {
         await connectDb();
         const userDetails = await UserData.find();

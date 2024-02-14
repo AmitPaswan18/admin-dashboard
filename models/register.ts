@@ -2,7 +2,10 @@ import { default as mongoose } from "mongoose";
 
 const { Schema } = mongoose;
 const userSchema = new Schema({
-    fullname: {
+    username: {
+        type: String,
+    },
+    password: {
         type: String,
     },
     email: {
