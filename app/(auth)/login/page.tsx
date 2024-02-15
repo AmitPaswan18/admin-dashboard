@@ -7,7 +7,7 @@ import Link from "next/link";
 async function authProvider() {
   "use server";
   const res = await fetch("http://localhost:3000/api/auth/signin", {
-    cache: "no-cache",
+    cache: "no-cache"
   });
 
   if (!res.ok) {

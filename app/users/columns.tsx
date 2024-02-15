@@ -1,6 +1,8 @@
 "use client";
 
 import { ColumnDef } from "@tanstack/react-table";
+import { Checkbox } from "@/components/ui/checkbox";
+import { handleDelete } from "./deleteUser";
 
 import { MoreHorizontal, ArrowUpDown } from "lucide-react";
 
@@ -15,7 +17,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 
 export type User = {
-  id: string;
+  _id: string;
   username: string;
   emaiL: string;
   fathername: string;
@@ -24,7 +26,28 @@ export type User = {
   country: string;
 };
 
+
 export const columns: ColumnDef<User>[] = [
+  {
+    id: "select",
+    header: ({ table }) => (
+      <Checkbox
+        checked={
+          table.getIsAllPageRowsSelected() ||
+          (table.getIsSomePageRowsSelected() && "indeterminate")
+        }
+        onCheckedChange={(value) => table.toggleAllPageRowsSelected(!!value)}
+        aria-label="Select all"
+      />
+    ),
+    cell: ({ row }) => (
+      <Checkbox
+        checked={row.getIsSelected()}
+        onCheckedChange={(value) => row.toggleSelected(!!value)}
+        aria-label="Select row"
+      />
+    ),
+  },
   {
     accessorKey: "username",
     header: ({ column }) => {
@@ -38,19 +61,19 @@ export const columns: ColumnDef<User>[] = [
       );
     },
   },
-  {
-    accessorKey: "password",
-    header: ({ column }) => {
-      return (
-        <Button
-          variant="ghost"
-          onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
-          Password
-          <ArrowUpDown className="ml-2 h-4 w-4" />
-        </Button>
-      );
-    },
-  },
+  // {
+  //   accessorKey: "password",
+  //   header: ({ column }) => {
+  //     return (
+  //       <Button
+  //         variant="ghost"
+  //         onClick={() => column.toggleSorting(column.getIsSorted() === "asc")}>
+  //         Password
+  //         <ArrowUpDown className="ml-2 h-4 w-4" />
+  //       </Button>
+  //     );
+  //   },
+  // },
   {
     accessorKey: "email",
     header: "Email",
@@ -97,12 +120,15 @@ export const columns: ColumnDef<User>[] = [
           <DropdownMenuContent align="end">
             <DropdownMenuLabel>Actions</DropdownMenuLabel>
             <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(user.id)}>
+              onClick={() => navigator.clipboard.writeText(user._id)}>
               Copy user ID
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
+            <DropdownMenuItem
+              onClick={() => handleDelete(user._id)}>
+              Delete User
+            </DropdownMenuItem>
+            <DropdownMenuItem>Edit User Details</DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
       );

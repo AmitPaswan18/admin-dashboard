@@ -1,9 +1,10 @@
 import { notFound } from "next/navigation";
 import connectDb from "@/db";
-
 import { revalidatePath } from "next/cache";
 import Image from "next/image";
 import Link from "next/link";
+import bcrypt from "bcryptjs";
+
 
 async function authProvider() {
   "use server";
@@ -18,14 +19,24 @@ async function authProvider() {
 }
 
 export default async function SignUp() {
-  async function handleSubmit(values: any) {
+  async function handleSubmit(formData: FormData) {
     "use server";
 
     await connectDb();
     try {
+       const username = formData.get('username') as string; 
+      const password = formData.get('password') as string; 
+      const hashedPassword = await bcrypt.hash(password, 10);
+
+      const data = {
+        username,
+        password: hashedPassword,
+      };
+
+      console.log(data);
       const res = await fetch("http://localhost:3000/api/newUser", {
         method: "POST",
-        body: JSON.stringify(values),
+        body: JSON.stringify(data),
         headers: {
           "content-type": "application/json",
         },
@@ -39,6 +50,7 @@ export default async function SignUp() {
     } catch (error) {
       console.log(error);
     }
+
 
     revalidatePath("/posts");
   }

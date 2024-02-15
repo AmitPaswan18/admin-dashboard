@@ -18,8 +18,6 @@ import ListItem from "@mui/material/ListItem";
 import ListItemButton from "@mui/material/ListItemButton";
 import ListItemIcon from "@mui/material/ListItemIcon";
 import ListItemText from "@mui/material/ListItemText";
-
-import MailIcon from "@mui/icons-material/Mail";
 const drawerWidth = 240;
 import Link from "next/link";
 import { signIn, signOut, useSession } from "next-auth/react";
@@ -111,13 +109,12 @@ export default function MiniDrawer() {
   function AuthButton() {
     const { data: session } = useSession();
 
-    if (session) {
+    if (session && session.user && session.user.image) {
       return (
         <>
-          {/* {session?.user?.name} <br /> */}
           <div className="flex gap-6">
             <Stack direction="row" spacing={2}>
-              <Avatar alt="Remy Sharp" src={session.user.image} />
+              <Avatar alt="" src={session.user.image} />
             </Stack>
             <button
               className="bg-red-500 rounded-md md:text-sm text-xs md:font-normal font-normal md:px-6 md:py-2 py-1 px-4 text-white mr-0"
@@ -131,10 +128,8 @@ export default function MiniDrawer() {
     return (
       <div className="flex gap-2">
         <div className="pt-[6px]"> Not signed in </div>
-        <button
-          className="bg-red-500 rounded-md md:text-sm text-xs md:font-normal font-normal md:px-6 md:py-2 py-1 px-4 text-white mr-0"
-          onClick={() => signIn()}>
-          Sign In
+        <button className="bg-red-500 rounded-md md:text-sm text-xs md:font-normal font-normal md:px-6 md:py-2 py-1 px-4 text-white mr-0">
+          <Link href="/login">Sign In</Link>
         </button>
       </div>
     );

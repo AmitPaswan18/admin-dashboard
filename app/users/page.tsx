@@ -3,10 +3,9 @@ import { DataTable } from "@/components/UserData";
 
 async function getUsers(): Promise<User[]> {
   const res = await fetch("http://localhost:3000/api/fetchusers", {
-    cache: "no-cache",
+    cache: "no-store",
   });
   const data = await res.json();
-  console.log(data);
   return data;
 }
 

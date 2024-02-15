@@ -2,6 +2,9 @@ import { default as mongoose } from "mongoose";
 
 const { Schema } = mongoose;
 const userSchema = new Schema({
+    _id : {
+     type: Object, 
+    },
     username: {
         type: String,
     },
