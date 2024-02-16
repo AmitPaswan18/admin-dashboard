@@ -1,9 +1,12 @@
-import Image from "next/image";
+// import LoginForm from "@/components/auth/Authlogin";
 
 export default function Home() {
   return (
-    <main className="flex bg-[#09090B] min-h-screen flex-col items-center justify-between p-24">
-      <div className="text-white">Welcome to User Regestration Page</div>
-    </main>
+    <>
+      <main className="flex flex-col justify-center items-center text-5xl pb-[20%] min-h-screen">
+        {/* <LoginForm /> */}
+        Welcome to Admin Dashboard
+      </main>
+    </>
   );
 }
