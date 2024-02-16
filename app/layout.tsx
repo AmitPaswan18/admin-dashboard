@@ -1,13 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import Header from "@/components/ui/Header/Header";
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { getServerSession } from "next-auth";
 import MiniDrawer from "@/components/home/AsideBar";
 
 import SessionProvider from "../components/SessioinProvider";
-import NavMenu from "../components/NavbarMenu";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -33,7 +31,6 @@ export default async function RootLayout({
             disableTransitionOnChange>
             <main>
               <MiniDrawer />
-              {/* <NavMenu /> */}
               {children}
             </main>
           </ThemeProvider>
