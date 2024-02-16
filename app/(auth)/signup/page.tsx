@@ -5,7 +5,6 @@ import Image from "next/image";
 import Link from "next/link";
 import bcrypt from "bcryptjs";
 
-
 async function authProvider() {
   "use server";
   const res = await fetch("http://localhost:3000/api/auth/signin", {
@@ -24,8 +23,8 @@ export default async function SignUp() {
 
     await connectDb();
     try {
-       const username = formData.get('username') as string; 
-      const password = formData.get('password') as string; 
+      const username = formData.get("username") as string;
+      const password = formData.get("password") as string;
       const hashedPassword = await bcrypt.hash(password, 10);
 
       const data = {
@@ -50,7 +49,6 @@ export default async function SignUp() {
     } catch (error) {
       console.log(error);
     }
-
 
     revalidatePath("/posts");
   }
@@ -113,7 +111,7 @@ export default async function SignUp() {
             </svg>
             <span>Sign Up</span>
           </button>
-          <Link href="/login">Already have an account? Log In</Link>
+          <Link href="/">Already have an account? Log In</Link>
         </div>
       </form>
     </div>

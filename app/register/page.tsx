@@ -1,7 +1,5 @@
 "use client";
 
-import { notFound } from "next/navigation";
-
 import { Formik, Form, Field } from "formik";
 import React from "react";
 import { object, string, TypeOf } from "zod";
@@ -23,7 +21,6 @@ const contactFormSchema = object({
 
 type ContactFormInputs = TypeOf<typeof contactFormSchema>;
 
-
 export default function UserRegister() {
   return (
     <div>
@@ -37,13 +34,16 @@ export default function UserRegister() {
           }}
           onSubmit={async (values, { resetForm }) => {
             try {
-              const res = await fetch("http://localhost:3000/api/adduser", {
-                method: "POST",
-                body: JSON.stringify(values),
-                headers: {
-                  "content-type": "application/json",
-                },
-              });
+              const res = await fetch(
+                "${process.env.NEXTAUTH_URL}/api/createuser",
+                {
+                  method: "POST",
+                  body: JSON.stringify(values),
+                  headers: {
+                    "content-type": "application/json",
+                  },
+                }
+              );
               if (res.ok) {
                 console.log("Registration successfully");
                 resetForm();

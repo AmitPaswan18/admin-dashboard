@@ -1,8 +1,7 @@
-import { User, columns } from "./columns";
-import { DataTable } from "@/components/UserData";
-
+import { User, columns } from "../../components/columns";
+import { DataTable } from "@/components/data-table";
 async function getUsers(): Promise<User[]> {
-  const res = await fetch("http://localhost:3000/api/fetchusers", {
+  const res = await fetch(`${process.env.NEXTAUTH_URL}/api/fetchusers`, {
     cache: "no-store",
   });
   const data = await res.json();

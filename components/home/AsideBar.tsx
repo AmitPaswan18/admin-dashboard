@@ -129,7 +129,7 @@ export default function MiniDrawer() {
       <div className="flex gap-2">
         <div className="pt-[6px]"> Not signed in </div>
         <button className="bg-red-500 rounded-md md:text-sm text-xs md:font-normal font-normal md:px-6 md:py-2 py-1 px-4 text-white mr-0">
-          <Link href="/login">Sign In</Link>
+          <Link href="/">Sign In</Link>
         </button>
       </div>
     );
@@ -178,11 +178,11 @@ export default function MiniDrawer() {
                 <Link
                   href={
                     text === "Admin Login"
-                      ? "/login"
+                      ? "/"
                       : text === "Users"
                       ? "/users"
                       : text === "User Register"
-                      ? "/registeruser"
+                      ? "/register"
                       : "/"
                   }>
                   <ListItemButton
