@@ -1,7 +1,7 @@
 import { NextResponse, NextRequest } from "next/server"
 import connectDb from "@/db"
 import authLogin from "@/models/login"
-export async function POST(req: any, res :  any) {
+export async function POST(req: any, res: any) {
     try {
         await connectDb()
         const data = await req.json()
@@ -10,7 +10,7 @@ export async function POST(req: any, res :  any) {
         await post.save();
         return NextResponse.json({ message: "Data saved successfully" })
     } catch (error) {
-        return NextResponse.json({ message: "Failed to save the data" })
+        return NextResponse.json({ message: "Failed to save the data" }, error.message)
     }
 
 } 

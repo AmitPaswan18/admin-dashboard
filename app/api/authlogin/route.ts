@@ -10,7 +10,11 @@ export async function POST(req: any, res: any) {
         const { username, password } = data;
         const user = await UserData.findOne({ username });
         if (!user) {
-            return new NextResponse("User not found", { status: 404 });
+            NextResponse.json({
+                message: "Please enter valid username"
+            }, {
+                status: 404,
+            })
         }
         const isMatch = await bcrypt.compare(password, user.password);
         if (!isMatch) {
