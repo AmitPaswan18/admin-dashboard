@@ -1,22 +1,37 @@
 "use client";
-import React from "react";
-import Image from "next/image";
+import { useFormState, useFormStatus } from "react-dom";
+import { signUp } from "@/app/_lib/actions";
 import Link from "next/link";
+import Image from "next/image";
+import { authProvider } from "@/app/_lib/queries/loginqueries";
 
-interface LoginFormClientProps {
-  handleLogin: (formData: FormData) => Promise<void>;
-  authProvider: () => Promise<void>;
+import { Button } from "../ui/button";
+
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+  SelectGroup,
+  SelectLabel,
+} from "../ui/select";
+
+function SubmitButton() {
+  const { pending } = useFormStatus();
+  return (
+    <Button aria-disabled={pending} type="submit">
+      Submit
+    </Button>
+  );
 }
 
-const LoginFormClient: React.FC<LoginFormClientProps> = ({
-  handleLogin,
-  authProvider,
-}) => {
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    const formData = new FormData(event.currentTarget);
-    await handleLogin(formData);
-  };
+const initialValues = {
+  message: "",
+};
+
+export default function SignupComponent() {
+  const [state, formAction] = useFormState(signUp, initialValues);
   return (
     <div className="flex w-full flex-col justify-center absolute top-[33%] left-[40%]">
       <div className="my-5 w-[300px]">
@@ -31,11 +46,11 @@ const LoginFormClient: React.FC<LoginFormClientProps> = ({
               height={500}
               alt=""
             />{" "}
-            <span>Login with Google</span>
+            <span>Sign up with Google</span>
           </button>
         </Link>
       </div>
-      <form onSubmit={handleSubmit}>
+      <form action={formAction}>
         <div className="flex justify-center gap-4 flex-col w-[300px]">
           <div className="relative h-10 w-full min-w-[200px]">
             <input
@@ -59,27 +74,25 @@ const LoginFormClient: React.FC<LoginFormClientProps> = ({
               Password
             </label>
           </div>
-          <button className="w-full py-2 font-medium text-white bg-indigo-600 hover:bg-indigo-500 rounded-lg border-indigo-500 hover:shadow inline-flex space-x-2 items-center justify-center">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              className="h-6 w-6"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth="2">
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-              />
-            </svg>
-            <span>Sign in</span>
-          </button>
-          <Link href="/signup">Don't have an account? Sign Up </Link>
+          <Select name="role">
+            <SelectTrigger className="w-[180px]">
+              <SelectValue placeholder="Select a Role" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectGroup>
+                <SelectLabel>Role</SelectLabel>
+                <SelectItem value="Admin">Admin</SelectItem>
+                <SelectItem value="User">User</SelectItem>
+              </SelectGroup>
+            </SelectContent>
+          </Select>
+          <SubmitButton />
+          <p aria-live="polite" className="sr-only" role="status">
+            {state?.message}
+          </p>
+          <Link href="/">Already have an account? Log In</Link>
         </div>
       </form>
     </div>
   );
-};
-
-export default LoginFormClient;
+}

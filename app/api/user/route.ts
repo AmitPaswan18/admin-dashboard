@@ -1,5 +1,5 @@
-import connectDb from "@/db";
-import UserData from "@/models/register";
+import connectDb from "@/app/_lib/db";
+import UserData from "../../models/register";
 import mongoose from "mongoose";
 import { NextResponse } from "next/server";
 import { revalidatePath } from 'next/cache'

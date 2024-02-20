@@ -1,7 +1,8 @@
-import connectDb from "@/db";
-import UserData from "@/models/register";
+import connectDb from "@/app/_lib/db";
+import UserData from "../../models/register";
 import { NextRequest, NextResponse } from "next/server";
 import bcrypt from "bcryptjs";
+import { revalidatePath } from "next/cache";
 
 export async function POST(req: any, res: any) {
     try {
@@ -20,7 +21,6 @@ export async function POST(req: any, res: any) {
         if (!isMatch) {
             return new NextResponse("Invalid credentials", { status: 401 });
         }
-
         return new NextResponse(JSON.stringify(user), { status: 200 });
     } catch (error) {
         console.error("Error fetching data:", error);

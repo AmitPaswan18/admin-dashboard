@@ -180,9 +180,9 @@ export default function MiniDrawer() {
                     text === "Admin Login"
                       ? "/"
                       : text === "Users"
-                      ? "/users"
+                      ? "/dashboard/users"
                       : text === "User Register"
-                      ? "/register"
+                      ? "/dashboard/register"
                       : "/"
                   }>
                   <ListItemButton

@@ -1,6 +1,6 @@
-import connectDb from "@/db";
+import connectDb from "@/app/_lib/db";
 import { NextResponse } from "next/server";
-import UserData from "@/models/register";
+import UserData from "../../models/register";
 import { type NextRequest } from 'next/server'
 
 export async function GET(request: NextRequest) {
@@ -25,6 +25,8 @@ export async function GET(request: NextRequest) {
         const skip = (page - 1) * limit;
         // const userDetails = await UserData.find().skip(skip).limit(limit);
         const userDetails = await UserData.find()
+
+
 
         return new NextResponse(JSON.stringify(userDetails), { status: 200 });
     } catch (error) {

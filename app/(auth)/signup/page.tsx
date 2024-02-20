@@ -1,15 +1,10 @@
 import React from "react";
-import SignUpFormClient from "@/app/_components/SignupComponents";
-import { authProvider } from "@/app/_lib/queries/loginqueries";
-import handleSignUp from "@/app/_lib/queries/signupqueries";
+import SignupComponent from "@/app/components/signup/signup";
 
 export default function SignUpPage() {
   return (
-    <div>
-      <SignUpFormClient
-        handleSignUp={handleSignUp}
-        authProvider={authProvider}
-      />
+    <div className="bg-dark h-screen w-screen">
+      <SignupComponent />
     </div>
   );
 }
